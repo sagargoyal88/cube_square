@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Square & Cube Practice</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="grid md:grid-cols-2 gap-8 w-full max-w-4xl">
+    <!-- Square Section -->
+    <div class="bg-white shadow-xl rounded-2xl p-6">
+      <h2 class="text-xl font-bold text-blue-700 text-center mb-4">🔲 Square Practice (11–30)</h2>
+      <p class="text-lg text-center mb-2">What is the square of <span id="squareNumber" class="font-semibold text-indigo-700">?</span>?</p>
+      <input type="number" id="squareInput" class="w-full p-2 border rounded-lg mb-4 text-center" placeholder="Enter square" />
+      <div id="squareFeedback" class="text-center font-medium mb-2"></div>
+      <div class="text-sm text-gray-700 mt-4">
+        <p>🟨 11–20: <span id="count11to20">0</span></p>
+        <p>🟥 21–30: <span id="count21to30">0</span></p>
+      </div>
+    </div>
+
+    <!-- Cube Section -->
+    <div class="bg-white shadow-xl rounded-2xl p-6">
+      <h2 class="text-xl font-bold text-purple-700 text-center mb-4">🧊 Cube Practice (1–20)</h2>
+      <p class="text-lg text-center mb-2">What is the cube of <span id="cubeNumber" class="font-semibold text-indigo-700">?</span>?</p>
+      <input type="number" id="cubeInput" class="w-full p-2 border rounded-lg mb-4 text-center" placeholder="Enter cube" />
+      <div id="cubeFeedback" class="text-center font-medium mb-4"></div>
+    </div>
+  </div>
+
+  <script>
+    let squareNumber = 0;
+    let cubeNumber = 0;
+
+    let count11to20 = 0;
+    let count21to30 = 0;
+
+    function generateSquare() {
+      const rand = Math.random();
+      if (rand < 0.3) {
+        // 30% chance: 11 to 20
+        squareNumber = Math.floor(Math.random() * 10) + 11;
+        count11to20++;
+        document.getElementById("count11to20").innerText = count11to20;
+      } else {
+        // 70% chance: 21 to 30
+        squareNumber = Math.floor(Math.random() * 10) + 21;
+        count21to30++;
+        document.getElementById("count21to30").innerText = count21to30;
+      }
+
+      document.getElementById("squareNumber").innerText = squareNumber;
+      document.getElementById("squareInput").value = "";
+      document.getElementById("squareFeedback").innerText = "";
+    }
+
+    function generateCube() {
+      cubeNumber = Math.floor(Math.random() * 20) + 1;
+      document.getElementById("cubeNumber").innerText = cubeNumber;
+      document.getElementById("cubeInput").value = "";
+      document.getElementById("cubeFeedback").innerText = "";
+    }
+
+    document.getElementById("squareInput").addEventListener("keyup", function (event) {
+      if (event.key === "Enter") checkSquare();
+    });
+
+    document.getElementById("cubeInput").addEventListener("keyup", function (event) {
+      if (event.key === "Enter") checkCube();
+    });
+
+    function checkSquare() {
+      const input = parseInt(document.getElementById("squareInput").value);
+      const correct = squareNumber * squareNumber;
+      const feedback = document.getElementById("squareFeedback");
+
+      if (input === correct) {
+        feedback.innerText = "✅ Correct!";
+        feedback.className = "text-green-600 text-center font-semibold mb-2";
+      } else {
+        feedback.innerText = `❌ Incorrect. Correct: ${correct}`;
+        feedback.className = "text-red-600 text-center font-semibold mb-2";
+      }
+
+      setTimeout(generateSquare, 1000);
+    }
+
+    function checkCube() {
+      const input = parseInt(document.getElementById("cubeInput").value);
+      const correct = cubeNumber * cubeNumber * cubeNumber;
+      const feedback = document.getElementById("cubeFeedback");
+
+      if (input === correct) {
+        feedback.innerText = "✅ Correct!";
+        feedback.className = "text-green-600 text-center font-semibold mb-4";
+      } else {
+        feedback.innerText = `❌ Incorrect. Correct: ${correct}`;
+        feedback.className = "text-red-600 text-center font-semibold mb-4";
+      }
+
+      setTimeout(generateCube, 1000);
+    }
+
+    window.onload = function () {
+      generateSquare();
+      generateCube();
+    };
+  </script>
+</body>
+</html>
